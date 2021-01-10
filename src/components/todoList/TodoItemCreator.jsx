@@ -4,10 +4,8 @@ import { useSetRecoilState } from "recoil";
 import todoListState from '../../recoil/todoList/atoms/withTodoList';
 
 // utility for creating unique Id
-let id = 0;
 function getId() {
-  id += 1;
-  return id;
+  return Date.now();
 }
 
 const TodoItemCreator = () => {
