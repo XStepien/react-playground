@@ -1,28 +1,20 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import { useSetRecoilState } from "recoil";
+import { useRecoilCallback } from 'recoil';
 import todoListState from '../../recoil/todoList/atoms/withTodoList';
-
-// utility for creating unique Id
-function getId() {
-  return Date.now();
-}
+import { addTodo } from '../../api/todoListApi';
 
 const TodoItemCreator = () => {
   const [inputValue, setInputValue] = useState('');
-  const setTodoList = useSetRecoilState(todoListState);
 
-  const addItem = () => {
-    setTodoList((oldTodoList) => [
-      ...oldTodoList,
-      {
-        id: getId(),
-        text: inputValue,
-        isComplete: false,
-      },
-    ]);
+  const addItem = useRecoilCallback(({ set }) => async () => {
+    const newTodo = await addTodo({
+      text: inputValue,
+      isCompleted: false,
+    });
+    set(todoListState, (arg) => [...arg, newTodo]);
     setInputValue('');
-  };
+  });
 
   const onChange = ({ target: { value } }) => {
     setInputValue(value);

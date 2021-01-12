@@ -4,10 +4,10 @@ export const FILTER_STATES = {
   ALL: 'Show All',
   COMPLETED: 'Show Completed',
   UNCOMPLETED: 'Show Uncompleted',
-}
+};
 
 const todoListFilterState = atom({
-  key: "todoListFilterState",
+  key: 'todoListFilterState',
   default: FILTER_STATES.ALL,
 });
 

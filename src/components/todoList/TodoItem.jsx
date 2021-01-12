@@ -1,44 +1,25 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import { useRecoilState } from 'recoil';
+// function replaceItemAtIndex(arr, index, newValue) {
+//   return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
+// }
 
-import todoListState from '../../recoil/todoList/atoms/withTodoList';
+// function removeItemAtIndex(arr, index) {
+//   return [...arr.slice(0, index), ...arr.slice(index + 1)];
+// }
 
-function replaceItemAtIndex(arr, index, newValue) {
-  return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
-}
-
-function removeItemAtIndex(arr, index) {
-  return [...arr.slice(0, index), ...arr.slice(index + 1)];
-}
-
-const TodoItem = ({ item }) => {
-  const [todoList, setTodoList] = useRecoilState(todoListState);
-  const index = todoList.findIndex((listItem) => listItem === item);
-
+const TodoItem = ({ item, onUpdate, onDelete }) => {
   const editItemText = ({ target: { value } }) => {
-    const newList = replaceItemAtIndex(todoList, index, {
-      ...item,
-      text: value,
-    });
-
-    setTodoList(newList);
+    onUpdate({ ...item, text: value });
   };
 
   const toggleItemCompletion = () => {
-    const newList = replaceItemAtIndex(todoList, index, {
-      ...item,
-      isComplete: !item.isComplete,
-    });
-
-    setTodoList(newList);
+    onUpdate({ ...item, isCompleted: !item.isCompleted });
   };
 
   const deleteItem = () => {
-    const newList = removeItemAtIndex(todoList, index);
-
-    setTodoList(newList);
+    onDelete(item.id);
   };
 
   return (
@@ -46,20 +27,24 @@ const TodoItem = ({ item }) => {
       <input type="text" value={item.text} onChange={editItemText} />
       <input
         type="checkbox"
-        checked={item.isComplete}
+        checked={item.isCompleted}
         onChange={toggleItemCompletion}
       />
-      <button type="button" onClick={deleteItem}>X</button>
+      <button type="button" onClick={deleteItem}>
+        X
+      </button>
     </div>
   );
-}
+};
 
 TodoItem.propTypes = {
-    item: PropTypes.shape({
-        id: PropTypes.number,
-        isComplete: PropTypes.bool,
-        text: PropTypes.string,
-    }).isRequired,
-}
+  item: PropTypes.shape({
+    id: PropTypes.number,
+    isCompleted: PropTypes.bool,
+    text: PropTypes.string,
+  }).isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+};
 
 export default TodoItem;

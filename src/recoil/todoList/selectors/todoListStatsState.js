@@ -1,15 +1,16 @@
-import { selector } from "recoil";
+import { selector } from 'recoil';
 
-import todoListState from "../atoms/withTodoList";
+import todoListState from '../atoms/withTodoList';
 
 const todoListStatsState = selector({
   key: 'todoListStatsState',
   get: ({ get }) => {
     const todoList = get(todoListState);
     const totalNum = todoList.length;
-    const totalCompletedNum = todoList.filter((item) => item.isComplete).length;
+    const totalCompletedNum = todoList.filter((item) => item.isCompleted).length;
     const totalUncompletedNum = totalNum - totalCompletedNum;
-    const percentCompleted = totalNum === 0 ? 0 : totalCompletedNum / totalNum * 100;
+    const percentCompleted =
+      totalNum === 0 ? 0 : (totalCompletedNum / totalNum) * 100;
 
     return {
       totalNum,
