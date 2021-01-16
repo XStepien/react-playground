@@ -5,25 +5,15 @@ import { useRecoilState } from 'recoil';
 
 import todoItem from '../../recoil/todoList/atoms/withTodoItem';
 
-// function replaceItemAtIndex(arr, index, newValue) {
-//   return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
-// }
-
-// function removeItemAtIndex(arr, index) {
-//   return [...arr.slice(0, index), ...arr.slice(index + 1)];
-// }
-
 const TodoItem = ({ id, onDelete }) => {
   const [item, setItem] = useRecoilState(todoItem(id));
 
   const editItemText = ({ target: { value } }) => {
     setItem({ ...item, text: value });
-    // onUpdate({ ...item, text: value });
   };
 
   const toggleItemCompletion = () => {
     setItem({ ...item, isCompleted: !item.isCompleted });
-    // onUpdate({ ...item, isCompleted: !item.isCompleted });
   };
 
   const deleteItem = () => {
@@ -46,11 +36,6 @@ const TodoItem = ({ id, onDelete }) => {
 };
 
 TodoItem.propTypes = {
-  // item: PropTypes.shape({
-  //   id: PropTypes.number,
-  //   isCompleted: PropTypes.bool,
-  //   text: PropTypes.string,
-  // }).isRequired,
   id: PropTypes.number.isRequired,
   onDelete: PropTypes.func.isRequired,
 };
