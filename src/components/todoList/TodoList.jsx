@@ -16,7 +16,7 @@ const TodoList = () => {
   const handleOnEdit = useRecoilCallback(({ set }) => async (params) => {
     await editTodo(params);
     set(todoListState, (arg) =>
-      arg.map((a) => (a.id === params.id ? params : a))
+      arg.map((a) => (a.id === params.id ? params : a)),
     );
   });
 
@@ -33,7 +33,7 @@ const TodoList = () => {
       {filteredTodoList.map((todoItem) => (
         <TodoItem
           key={todoItem.id}
-          item={todoItem}
+          id={todoItem.id}
           onUpdate={handleOnEdit}
           onDelete={handleOnDelete}
         />

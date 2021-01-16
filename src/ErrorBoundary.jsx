@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -13,11 +13,11 @@ class ErrorBoundary extends Component {
   }
 
   /*
-  componentDidCatch(error, errorInfo) {
-    // Vous pouvez aussi enregistrer l'erreur au sein d'un service de rapport.
-    // logErrorToMyService(error, errorInfo);
-  }
-  */
+    componentDidCatch(error, errorInfo) {
+      // Vous pouvez aussi enregistrer l'erreur au sein d'un service de rapport.
+      // logErrorToMyService(error, errorInfo);
+    }
+    */
 
   render() {
     const { children } = this.props;

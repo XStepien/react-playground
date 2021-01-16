@@ -1,7 +1,0 @@
-{
-  "Todo": {
-    "id": "int",
-    "isComplete": "boolean",
-    "text": "string"
-  }
-}

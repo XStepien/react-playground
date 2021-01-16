@@ -9,7 +9,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <ErrorBoundary>
-          <Suspense fallback={(<div>Loading...</div>)}>
+          <Suspense fallback={<div>Loading...</div>}>
             <TodoList />
           </Suspense>
         </ErrorBoundary>

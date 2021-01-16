@@ -1,9 +1,9 @@
 export const getAllTodos = async () => {
-    const rawResponse = await fetch('http://localhost:8080/todos');
+  const rawResponse = await fetch('http://localhost:8080/todos');
 
-    const content = await rawResponse.json();
+  const content = await rawResponse.json();
 
-    return content;
+  return content;
 };
 
 export const addTodo = async (todo) => {

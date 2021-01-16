@@ -1,13 +1,21 @@
 {
+  "parserOptions": {
+    "ecmaVersion": 2020
+  },
   "extends": [
     "react-app",
     "airbnb",
-    "plugin:jsx-a11y/recommended",
-    "prettier",
-    "prettier/react"
+    "prettier"
   ],
   "plugins": [
     "jsx-a11y",
     "prettier"
-  ]
+  ],
+  "rules": {
+    "prettier/prettier": ["error", {
+      "singleQuote": true,
+      "tabWidth": 2,
+      "trailingComma": "all"
+    }]
+  }
 }
