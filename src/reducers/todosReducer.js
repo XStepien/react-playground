@@ -18,7 +18,7 @@ const todoSlice = createSlice({
     actionStatus: 'idle',
   }),
   extraReducers: {
-    // Add reducers for additional action types here, and handle loading state as needed
+    // TODO: use the "Builder Callback" Notation
     [fetchAllTodos.pending]: (state) => {
       if (state.loading === 'idle') {
         state.loading = 'pending';
