@@ -1,28 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectTodoById } from '../../selectors/todosSelectors';
+import { editTodo, removeTodo } from '../../actions/todosActions';
 
-import { useRecoilState } from 'recoil';
+const TodoItem = ({ id }) => {
+  const dispatch = useDispatch();
+  const item = useSelector((state) => selectTodoById(state, id));
 
-import todoItem from '../../recoil/todoList/atoms/withTodoItem';
+  const editItemText = ({ target: { value } }) =>
+    dispatch(editTodo({ ...item, text: value }));
 
-const TodoItem = ({ id, onDelete }) => {
-  const [item, setItem] = useRecoilState(todoItem(id));
+  const toggleItemCompletion = () =>
+    dispatch(editTodo({ ...item, isCompleted: !item.isCompleted }));
 
-  const editItemText = ({ target: { value } }) => {
-    setItem({ ...item, text: value });
-  };
-
-  const toggleItemCompletion = () => {
-    setItem({ ...item, isCompleted: !item.isCompleted });
-  };
-
-  const deleteItem = () => {
-    onDelete(item.id);
-  };
+  const deleteItem = () => dispatch(removeTodo(item.id));
 
   return (
-    <div>
-      <input type="text" value={item.text} onChange={editItemText} />
+    <div data-testid={`todoListItem${item.id}`}>
+      <input type="text" defaultValue={item.text} onBlur={editItemText} />
       <input
         type="checkbox"
         checked={item.isCompleted}
@@ -37,7 +33,6 @@ const TodoItem = ({ id, onDelete }) => {
 
 TodoItem.propTypes = {
   id: PropTypes.number.isRequired,
-  onDelete: PropTypes.func.isRequired,
 };
 
-export default TodoItem;
+export default React.memo(TodoItem);

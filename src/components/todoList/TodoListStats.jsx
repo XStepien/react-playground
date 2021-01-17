@@ -1,16 +1,19 @@
 import React from 'react';
-
-import { useRecoilValue } from 'recoil';
-
-import todoListStatsState from '../../recoil/todoList/selectors/todoListStatsState';
+import { useSelector } from 'react-redux';
+import {
+  selectTotalCompletedTodos,
+  selectTotalTodos,
+} from '../../selectors/todosSelectors';
 
 const TodoListStats = () => {
-  const {
-    totalNum,
-    totalCompletedNum,
-    totalUncompletedNum,
-    percentCompleted,
-  } = useRecoilValue(todoListStatsState);
+  const { totalNum, totalCompletedNum } = useSelector((state) => ({
+    totalNum: selectTotalTodos(state),
+    totalCompletedNum: selectTotalCompletedTodos(state),
+  }));
+
+  const totalUncompletedNum = totalNum - totalCompletedNum;
+  const percentCompleted =
+    totalNum === 0 ? 0 : (totalCompletedNum / totalNum) * 100;
 
   const formattedPercentCompleted = Math.round(percentCompleted);
 
@@ -33,4 +36,4 @@ const TodoListStats = () => {
   );
 };
 
-export default TodoListStats;
+export default React.memo(TodoListStats);

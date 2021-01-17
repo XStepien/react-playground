@@ -1,17 +1,23 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import './App.css';
 
 import ErrorBoundary from './ErrorBoundary';
 import TodoList from './components/todoList/TodoList';
+import TodoListStats from './components/todoList/TodoListStats';
+import TodoListFilters from './components/todoList/TodoListFilters';
+import TodoItemCreator from './components/todoList/TodoItemCreator';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
         <ErrorBoundary>
-          <Suspense fallback={<div>Loading...</div>}>
+          <>
+            <TodoListStats />
+            <TodoListFilters />
+            <TodoItemCreator />
             <TodoList />
-          </Suspense>
+          </>
         </ErrorBoundary>
       </header>
     </div>

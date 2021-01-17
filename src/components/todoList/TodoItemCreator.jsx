@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
-
-import { useRecoilCallback } from 'recoil';
-import todoListState from '../../recoil/todoList/atoms/withTodoList';
-import { addTodo } from '../../api/todoListApi';
+import { useDispatch } from 'react-redux';
+import { addTodo } from '../../actions/todosActions';
 
 const TodoItemCreator = () => {
+  const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState('');
-
-  const addItem = useRecoilCallback(({ set }) => async () => {
-    const newTodo = await addTodo({
-      text: inputValue,
-      isCompleted: false,
-    });
-    set(todoListState, (arg) => [...arg, newTodo]);
-    setInputValue('');
-  });
 
   const onChange = ({ target: { value } }) => {
     setInputValue(value);
+  };
+
+  const addItem = () => {
+    const newTodo = {
+      text: inputValue,
+      isCompleted: true,
+    };
+
+    dispatch(addTodo(newTodo)).then(() => {
+      setInputValue('');
+    });
   };
 
   return (

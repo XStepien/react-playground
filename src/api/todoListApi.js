@@ -1,12 +1,10 @@
 export const getAllTodos = async () => {
   const rawResponse = await fetch('http://localhost:8080/todos');
 
-  const content = await rawResponse.json();
-
-  return content;
+  return rawResponse.json();
 };
 
-export const addTodo = async (todo) => {
+export const postTodo = async (todo) => {
   const rawResponse = await fetch('http://localhost:8080/todos', {
     method: 'POST',
     headers: {
@@ -16,12 +14,10 @@ export const addTodo = async (todo) => {
     body: JSON.stringify(todo),
   });
 
-  const content = await rawResponse.json();
-
-  return content;
+  return rawResponse.json();
 };
 
-export const editTodo = async (todo) => {
+export const putTodo = async (todo) => {
   const rawResponse = await fetch(`http://localhost:8080/todos/${todo.id}`, {
     method: 'PUT',
     headers: {
@@ -31,17 +27,10 @@ export const editTodo = async (todo) => {
     body: JSON.stringify(todo),
   });
 
-  const content = await rawResponse.json();
-
-  return content;
+  return rawResponse.json();
 };
 
-export const removeTodo = async (id) => {
-  const rawResponse = await fetch(`http://localhost:8080/todos/${id}`, {
+export const deleteTodo = async (id) =>
+  fetch(`http://localhost:8080/todos/${id}`, {
     method: 'DELETE',
   });
-
-  const content = await rawResponse.json();
-
-  return content;
-};

@@ -1,45 +1,38 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { useRecoilValue, useRecoilCallback } from 'recoil';
-import filteredTodoListState from '../../recoil/todoList/selectors/filteredTodoListState';
-import todoListState from '../../recoil/todoList/atoms/withTodoList';
-
-import TodoListStats from './TodoListStats';
-import TodoListFilters from './TodoListFilters';
-import TodoItemCreator from './TodoItemCreator';
 import TodoItem from './TodoItem';
-import { editTodo, removeTodo } from '../../api/todoListApi';
+import { selectFilteredTodos } from '../../selectors/todosSelectors';
+import { fetchAllTodos } from '../../actions/todosActions';
 
 const TodoList = () => {
-  const filteredTodoList = useRecoilValue(filteredTodoListState);
+  const dispatch = useDispatch();
+  const todosIds = useSelector(selectFilteredTodos);
+  const loading = useSelector(({ todos }) => todos.loading);
 
-  const handleOnEdit = useRecoilCallback(({ set }) => async (params) => {
-    await editTodo(params);
-    set(todoListState, (arg) =>
-      arg.map((a) => (a.id === params.id ? params : a)),
-    );
+  // console.log({ loading });
+
+  useEffect(() => {
+    dispatch(fetchAllTodos());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (loading === 'error') {
+      throw new Error('An error occurred while fetching todos...');
+    }
   });
 
-  const handleOnDelete = useRecoilCallback(({ set }) => async (id) => {
-    await removeTodo(id);
-    set(todoListState, (arg) => arg.filter((a) => a.id !== id));
-  });
-
-  return (
-    <>
-      <TodoListStats />
-      <TodoListFilters />
-      <TodoItemCreator />
-      {filteredTodoList.map((todoItem) => (
-        <TodoItem
-          key={todoItem.id}
-          id={todoItem.id}
-          onUpdate={handleOnEdit}
-          onDelete={handleOnDelete}
-        />
-      ))}
-    </>
-  );
+  switch (loading) {
+    case 'idle':
+    case 'pending':
+      return <div data-testid="loader">Loading...</div>;
+    case 'success':
+      return todosIds.map((todoItemId) => (
+        <TodoItem key={todoItemId} id={todoItemId} />
+      ));
+    default:
+      return null;
+  }
 };
 
 export default TodoList;

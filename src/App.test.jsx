@@ -1,14 +1,19 @@
 import React from 'react';
-import { RecoilRoot } from 'recoil';
-import { render, screen } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { render, screen, waitFor } from '@testing-library/react';
 import App from './App';
+import store from './store';
 
-test('renders learn react link', () => {
+test('renders todo list app', async () => {
   render(
-    <RecoilRoot>
+    <Provider store={store}>
       <App />
-    </RecoilRoot>,
+    </Provider>,
   );
-  const linkElement = screen.getByText(/Loading.../i);
-  expect(linkElement).toBeInTheDocument();
+  const loadingScreen = screen.getByTestId('loader');
+  expect(loadingScreen).toBeInTheDocument();
+
+  await waitFor(() => {
+    expect(screen.getByTestId('todoListItem1')).toBeInTheDocument();
+  });
 });

@@ -1,16 +1,16 @@
 import React from 'react';
-
-import { useRecoilState } from 'recoil';
-
-import todoListFilterState, {
-  FILTER_STATES,
-} from '../../recoil/todoList/atoms/withTodoListFilterState';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  setVisibilityFilter,
+  VisibilityFilters,
+} from '../../reducers/filtersReducer';
 
 const TodoListFilters = () => {
-  const [filter, setFilter] = useRecoilState(todoListFilterState);
+  const dispatch = useDispatch();
+  const filter = useSelector((state) => state.visibilityFilter);
 
   const updateFilter = ({ target: { value } }) => {
-    setFilter(value);
+    dispatch(setVisibilityFilter(value));
   };
 
   return (
@@ -21,9 +21,9 @@ const TodoListFilters = () => {
         onBlur={updateFilter}
         onChange={updateFilter}
       >
-        <option value={FILTER_STATES.ALL}>All</option>
-        <option value={FILTER_STATES.COMPLETED}>Completed</option>
-        <option value={FILTER_STATES.UNCOMPLETED}>Uncompleted</option>
+        <option value={VisibilityFilters.SHOW_ALL}>All</option>
+        <option value={VisibilityFilters.SHOW_COMPLETED}>Completed</option>
+        <option value={VisibilityFilters.SHOW_ACTIVE}>Uncompleted</option>
       </select>
     </>
   );
